@@ -1,50 +1,60 @@
-# M E 369P Final Project
+# ME 369P Final Project
 import speech_recognition as sr
 import pyaudio
 import time
-def filter_words(recognized_words):
+
+def filter_text(text):
+    
+    # Define the list of directional words to filter for
+    directional_words = {"clockwise", "counterclockwise", "hover"}
+    
+    command =["", ""]
+    for word in text.split():
+      if word.isdigit():
+          command[0] = word
+      if word.lower() in directional_words:
+          command[1] = word
+          
+    if command[0] != "" and command[1] != "":
+        # send_command(command)
+        pass
+    return command
     
 def real_time_speech_to_text():
     recognizer = sr.Recognizer()
-    all_text = ""  # Initialize an empty string to store all transcriptions
-
-    # Define the list of directional words to filter for
-    directional_words = {"clockwise", "counterclockwise", "degrees", "hover", "then", }
+    all_text = [] # Initialize an empty string to store all transcriptions
 
     # Use the default microphone as the audio source
     with sr.Microphone() as source:
         print("Adjusting for ambient noise... please wait.")
         recognizer.adjust_for_ambient_noise(source)
-        print("Listening... Start speaking.")
-
+        print("Ready.")
+        
         # Continuously listen and recognize speech
         while True:
             try:
                 # Capture the audio
-                print("Countdown: Listening in ")
+                print("Countdown: Listening in 3...")
                 time.sleep(1)
-                print("3")
+                print("2...")
                 time.sleep(1)
-                print("2")
+                print("1...")
                 time.sleep(1)
-                print("1")
-                time.sleep(1)
-                print("GO!")
+                print("Listening!")
                 
                 audio_data = recognizer.listen(source, timeout = 10)
                 
                 # Transcribe the audio using Google’s Web Speech API
                 text = recognizer.recognize_google(audio_data)
-                corrected_text = text.replace("°", " degrees")
+                corrected_text  = text.replace("°", " degrees")
                 print("You said: " + corrected_text)
 
-                # Filter only directional words
-                filtered_words = [word for word in corrected_text.split() if word.lower() in directional_words or word.isdigit()]
-                filtered_text = " ".join(filtered_words)
-
-                # Append the filtered text to all_text
-                all_text += filtered_text + " "
-
+                all_text.append(filter_text(corrected_text))
+                
+                repeat = input("Next Command? (y/n): ").strip().lower()
+                
+                if repeat != "y":
+                    break
             except sr.UnknownValueError:
                 print("Sorry, I did not understand that.")
             except sr.RequestError:
@@ -52,9 +62,14 @@ def real_time_speech_to_text():
             except KeyboardInterrupt:
                 print("\nExiting real-time transcription.")
                 break
-
     return all_text  # Return the accumulated transcription of directional words only
 
-# Run the real-time speech-to-text function and save the result
-transcribed_directional_text = real_time_speech_to_text()
-print("Directional Transcription:\n", transcribed_directional_text)
+def main():   
+    # Run the real-time speech-to-text function and save the result
+    transcribed_directional_text = real_time_speech_to_text()
+    print("Directional Transcription: ")
+   
+    for index, inner_list in enumerate(transcribed_directional_text):
+         if inner_list[0] != "" and inner_list[1] != "":
+             print(f"Command {index+1} : {transcribed_directional_text[index][0]} degrees {transcribed_directional_text[index][1]}")
+main()
