@@ -18,6 +18,8 @@ def filter_text(text):
     if command[0] != "" and command[1] != "":
         # send_command(command)
         pass
+    if command[1] == "hover":
+        command = "hover"
     return command
     
 def real_time_speech_to_text():
@@ -48,8 +50,9 @@ def real_time_speech_to_text():
                 text = recognizer.recognize_google(audio_data)
                 corrected_text  = text.replace("°", " degrees")
                 print("You said: " + corrected_text)
-
-                all_text.append(filter_text(corrected_text))
+                
+                if filter_text(corrected_text) != ["", ""]:
+                    all_text.append(filter_text(corrected_text)) 
                 
                 repeat = input("Next Command? (y/n): ").strip().lower()
                 
@@ -70,6 +73,8 @@ def main():
     print("Directional Transcription: ")
    
     for index, inner_list in enumerate(transcribed_directional_text):
-         if inner_list[0] != "" and inner_list[1] != "":
+         if inner_list == "hover":
+             print(f"Command {index+1} : Hover")
+         elif inner_list[0] != "" and inner_list[1] != "":
              print(f"Command {index+1} : {transcribed_directional_text[index][0]} degrees {transcribed_directional_text[index][1]}")
 main()
