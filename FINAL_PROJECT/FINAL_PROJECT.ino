@@ -80,19 +80,18 @@ void setup() {
 
 void loop() {
 
-  hover(gyro_int());
-
   // PYTHON CONNECTION
-  // if (Serial.available() > 0) {    // Check if data is received
-  //   char command = Serial.read();  // Read the command
-  //   if (command == 'right') {
-  //     move(false, 55, 4000, 1320);
-  //   } else if (command == 'hover') {
-  //     hover();
-  //   } else if (command == 'left') {
-  //     move(true, 55, 4000, 1320);
-  //   }
-  // }
+  if (Serial.available() > 0) {    // Check if data is received
+    char command = Serial.read();  // Read the command
+    if (command != 'hover') {
+      command.toInt 
+      move(false, 55, 4000, 1320);
+    } else {
+      hover(gyro_int());
+    } else if (command == 'left') {
+      move(true, 55, 4000, 1320);
+    }
+  }
 
   // RETRIEVE ACCELEROMETER VALUE
   // Serial.print(", Z = ");
