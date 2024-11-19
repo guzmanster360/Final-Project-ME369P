@@ -18,7 +18,6 @@ float z_targ = -25;
 const int dirPin = 7;
 const int stepPin = 6;
 const int stepsPerRevolution = 200;
-
 int dir = 0;
 int step = 0;
 int speed = 0;
