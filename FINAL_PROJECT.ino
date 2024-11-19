@@ -61,33 +61,35 @@ void setup() {
   Tlv493dMagnetic3DSensor.setAccessMode(Tlv493dMagnetic3DSensor.MASTERCONTROLLEDMODE);
   Tlv493dMagnetic3DSensor.disableTemp();
 
-  move(false, 55, 4000, 1320);
 }
 
 void loop() {
 
   // PYTHON CONNECTION
-  // if (Serial.available() > 0) { // Check if data is received
-  //   char command = Serial.read(); // Read the command
-  //   if (command == 'H') {
-  //     digitalWrite(13, HIGH); // Turn LED on
-  //   } else if (command == 'L') {
-  //     digitalWrite(13, LOW); // Turn LED off
-  //   }
-  // }
+  if (Serial.available() > 0) { // Check if data is received
+    char command = Serial.read(); // Read the command
+    if (command == 'right') {
+      // move(false, 55, 4000, 1320);
+      Serial.println(command);
+    } else if (command == 'hover') {
+      // hover();
+    } else if (command == 'left') {
+      // move(true, 55, 4000, 1320);  
+  }
+  }
 
   // RETRIEVE ACCELEROMETER VALUE
-  Serial.print(", Z = ");
-  Serial.println(myIMU.readFloatAccelZ(), 3);
+  // Serial.print(", Z = ");
+  // Serial.println(myIMU.readFloatAccelZ(), 3);
 
-  // RETRIEVE MAGNETOMETER VALUE
-  delay(Tlv493dMagnetic3DSensor.getMeasurementDelay());
-  Tlv493dMagnetic3DSensor.updateData();
-  z_mag = Tlv493dMagnetic3DSensor.getZ();
+  // // RETRIEVE MAGNETOMETER VALUE
+  // delay(Tlv493dMagnetic3DSensor.getMeasurementDelay());
+  // Tlv493dMagnetic3DSensor.updateData();
+  // z_mag = Tlv493dMagnetic3DSensor.getZ();
 
-  int pwm = map(z_mag, -128.5, 127, 1100, 1500);
-  // edf.writeMicroseconds(pwm);
-  Serial.println(pwm);
+  // int pwm = map(z_mag, -128.5, 127, 1100, 1500);
+  // // edf.writeMicroseconds(pwm);
+  // Serial.println(pwm);
 }
 
 

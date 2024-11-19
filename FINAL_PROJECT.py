@@ -1,5 +1,8 @@
 import serial
 import time
+import speech_recognition as sr
+
+recognizer = sr.Recognizer()
 
 port_name = ''
 # Replace 'COM3' with your Arduino's port (check the Arduino IDE or Device Manager)
@@ -15,3 +18,17 @@ def send_command(command):
 send_command('H')  # Turn LED on
 time.sleep(2)
 send_command('L')  # Turn LED off
+
+def speak():
+    with sr.Microphone() as source:
+        print("Say something!")
+        audio = recognizer.listen(source)
+        while audio != 'quit':
+            audio = recognizer.listen(source)
+            if audio == 'right':
+                send_command(audio)
+            elif audio == 'left':
+                send_command(audio)
+            elif audio == 'hover':
+                send_command(audio)
+speak()
