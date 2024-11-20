@@ -1,8 +1,10 @@
 # ME 369P Final Project
 import speech_recognition as sr
-import pyaudio
+# import pyaudio
 import time
 import serial
+from gtts import gTTS
+import os
 
 port_name = "/dev/cu.usbmodem101"
 # Replace 'COM3' with your Arduino's port (check the Arduino IDE or Device Manager)
@@ -85,9 +87,16 @@ def main():
    
     for index, inner_list in enumerate(transcribed_directional_text):
          if inner_list == "hover":
+             tts = gTTS("Beginning hovering sequence", lang='en')
+             tts.save("speech_hov.mp3")
+             os.system("start speech_hov.mp3")
              send_command(inner_list)
              print(f"Command {index+1} : Hover")
          elif inner_list[0] != "" and inner_list[1] != "":
+             text = f"Now moving {transcribed_directional_text[index][0]} degrees {transcribed_directional_text[index][0]}"
+             tts = gTTS(text, lang='en')
+             tts.save("speech_dir.mp3")
+             os.system("start speech_dir.mp3")
              send_command(inner_list)
              print(f"Command {index+1} : {transcribed_directional_text[index][0]} degrees {transcribed_directional_text[index][1]}")
 main()

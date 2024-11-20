@@ -4,9 +4,9 @@
 #include <Servo.h>
 
 // PID SETUP
-const float P = 7;
-const float I = 0.0005;
-const float D = 20.00;
+const float P = 0.5;
+const float I = 0.0001;
+const float D = 10.00;
 float integral = 0;
 float previous_error = 0;
 float output = 0;
@@ -36,7 +36,7 @@ float rawgyroX = 0.0;           // Raw acceleration data
 float filteredgyroX = 0.0;  
 
 // EDF PRE SETUP
-int edfPin = 11;
+int edfPin = 5;
 int thrust = 0;
 Servo edf;
 
@@ -82,15 +82,17 @@ void loop() {
   // PYTHON CONNECTION
   if (Serial.available() > 0) {    // Check if data is received
     char command = Serial.read();  // Read the command
+    Serial.println(command);
     if (command != 'hover') {
-      command.toInt 
+      // command.toInt 
       move(false, 55, 4000, 1320);
     } else {
       hover(gyro_int());
-    } else if (command == 'left') {
-      move(true, 55, 4000, 1320);
-    }
+    } 
   }
+
+    // hover(gyro_int());
+
 
   // RETRIEVE ACCELEROMETER VALUE
   // Serial.print(", Z = ");
@@ -206,7 +208,7 @@ void hover(float gyro) {
   previous_error = error;
   Serial.println(abs(output));
   // Serial.print(" ");
-  int pwm = map(abs(output), 30, 275, 1100, 1500);
+  int pwm = map(abs(output), 0, 350, 1100, 1500);
   edf.writeMicroseconds(pwm);
 }
 
