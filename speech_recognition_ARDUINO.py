@@ -1,10 +1,16 @@
 # ME 369P Final Project
 import speech_recognition as sr
-# import pyaudio
+import sounddevice as sd
 import time
 import serial
 from gtts import gTTS
 import os
+
+port_name = "/dev/cu.usbmodem101"
+# Replace 'COM3' with your Arduino's port (check the Arduino IDE or Device Manager)
+arduino = serial.Serial(port=port_name, baudrate=115200, timeout=1)
+
+time.sleep(2)  # Wait for the Arduino to initialize
 
 def send_command(command):
     arduino.write(command.encode())  # Send command to Arduino
