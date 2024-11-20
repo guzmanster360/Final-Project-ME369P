@@ -21,10 +21,10 @@ def filter_text(text):
           command[1] = word
           
     if command[0] != "" and command[1] != "":
-        # send_command(command)
-        pass
+        send_command(command)
     if command[1] == "hover":
         command = "hover"
+        send_command(command)
     return command
     
 def real_time_speech_to_text():
