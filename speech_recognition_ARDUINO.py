@@ -4,12 +4,6 @@ import pyaudio
 import time
 import serial
 
-port_name = "/dev/cu.usbmodem101"
-# Replace 'COM3' with your Arduino's port (check the Arduino IDE or Device Manager)
-arduino = serial.Serial(port=port_name, baudrate=115200, timeout=1)
-
-time.sleep(2)  # Wait for the Arduino to initialize
-
 def send_command(command):
     arduino.write(command.encode())  # Send command to Arduino
     time.sleep(0.1)  # Allow time for processing
@@ -35,7 +29,7 @@ def filter_text(text):
     
 def real_time_speech_to_text():
     recognizer = sr.Recognizer()
-    all_text = [] # Initialize an empty string to store all transcriptions
+    all_text = [] # Initialize an empty list to store all transcriptions
 
     # Use the default microphone as the audio source
     with sr.Microphone() as source:
@@ -47,14 +41,11 @@ def real_time_speech_to_text():
         while True:
             try:
                 # Capture the audio
-                print("Countdown: Listening in 3...")
-                time.sleep(1)
-                print("2...")
-                time.sleep(1)
-                print("1...")
-                time.sleep(1)
-                print("Listening!")
-                
+                print("Countdown: listening in ")
+                for i in range(3, 0, -1):
+                    print(f"{i}...")
+                    time.sleep(1)
+                    print("Listening!")
                 audio_data = recognizer.listen(source, timeout = 10)
                 
                 # Transcribe the audio using Google’s Web Speech API
@@ -79,6 +70,11 @@ def real_time_speech_to_text():
     return all_text  # Return the accumulated transcription of directional words only
 
 def main():   
+
+    port_name = "/dev/cu.usbmodem101"
+    arduino = serial.Serial(port=port_name, baudrate=115200, timeout=1)
+    time.sleep(2)  # Wait for the Arduino to initialize
+    
     # Run the real-time speech-to-text function and save the result
     transcribed_directional_text = real_time_speech_to_text()
     print("Directional Transcription: ")
