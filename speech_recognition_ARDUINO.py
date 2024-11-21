@@ -35,7 +35,6 @@ def filter_text(text):
         send_command("1")
         
     real_time_text_to_speech(command)
-    return command
     
 def real_time_text_to_speech(command):
     if command[1] == "hover":
