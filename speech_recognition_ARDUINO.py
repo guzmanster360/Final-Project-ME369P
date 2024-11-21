@@ -26,11 +26,11 @@ def filter_text(text):
           command[1] = word
           
     if command[1] == "clockwise" and command[0]:
-        int_command = "-" + command[0]
-        send_command(int_command)
+        str_command = "-" + command[0]
+        send_command(str_command)
     elif command[1] == "counterclockwise" and command[0]:
-        int_command = command[0]
-        send_command(int_command)
+        str_command = command[0]
+        send_command(str_command)
     elif command[1] == "hover":
         send_command("1")
         
