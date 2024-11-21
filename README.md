@@ -7,6 +7,8 @@ This project is a Python-based system that integrates **speech recognition**, **
 ## **Electric Thruster**
 This project features an electric thruster system with 3 degrees of freedom (roll, pitch, and yaw) of control. The supply sufficient power the system is powered by a 14.8V 100C battery and utilizes an Arduino Uno for precise control of a NEMA 17 stepper motor. The thruster is an electric ducted fan (EDF), driven by an electronic speed controller (ESC) which receives the PID output from system. The system is equipped with a magnetometer for rotational position monitoring and and a 6-axis inertial measurement unit (IMU) for angular velocity/position tracking.
 
+For the hovering sequence a PID controller was implemented to maintain a constant thruster position. By integrating the X axis data for angular velocity in real time we can implement position control that adjusts the PWM signal sent to the ESC which would then influence the magnitude of the thrust produced by the EDF.
+
 ![image](https://github.com/user-attachments/assets/f524e32d-86da-4604-a554-ac3d68d083b7)
 
 ---
