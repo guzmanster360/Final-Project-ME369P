@@ -16,10 +16,8 @@ def send_command(command):
     time.sleep(0.1)  # Allow time for processing
 
 def filter_text(text):
-    
     # Define the list of directional words to filter for
     directional_words = {"clockwise", "counterclockwise", "hover"}
-    
     command =["", ""]
     for word in text.split():
       if word.isdigit():
@@ -27,16 +25,13 @@ def filter_text(text):
       if word.lower() in directional_words:
           command[1] = word
           
-
     if command[1] == "clockwise" and command[0]:
         int_command = "-" + command[0]
         send_command(int_command)
-        
     elif command[1] == "counterclockwise" and command[0]:
         int_command = command[0]
         send_command(int_command)
-    
-    if command[1] == "hover":
+    elif command[1] == "hover":
         send_command("1")
         
     real_time_text_to_speech(command)
