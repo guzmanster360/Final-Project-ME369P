@@ -1,6 +1,6 @@
 # ME 369P Final Project
 import speech_recognition as sr
-import sounddevice as sd
+import pyaudio
 import time
 import serial
 from gtts import gTTS
@@ -9,11 +9,10 @@ import os
 port_name = "/dev/cu.usbmodem101"
 # Replace 'COM3' with your Arduino's port (check the Arduino IDE or Device Manager)
 arduino = serial.Serial(port=port_name, baudrate=115200, timeout=1)
-
 time.sleep(2)  # Wait for the Arduino to initialize
 
 def send_command(command):
-    arduino.write(command.encode())  # Send command to Arduino
+    arduino.write(bytes(command, 'utf-8'))   # Send command to Arduino
     time.sleep(0.1)  # Allow time for processing
 
 def filter_text(text):
@@ -29,10 +28,13 @@ def filter_text(text):
           command[1] = word
           
     if command[0] != "" and command[1] != "":
-        send_command(command)
-    if command[1] == "hover":
-        command = "hover"
-        send_command(command)
+        if command[1] == "hover":
+            print("HERE")
+            command = "1"
+            tts = gTTS("Beginning hovering sequence", lang='en')
+            tts.save("speech_hov.mp3")
+            os.system("open speech_hov.mp3")
+            send_command(command)
     return command
     
 def real_time_speech_to_text():
@@ -41,6 +43,7 @@ def real_time_speech_to_text():
 
     # Use the default microphone as the audio source
     with sr.Microphone() as source:
+        
         print("Adjusting for ambient noise... please wait.")
         recognizer.adjust_for_ambient_noise(source)
         print("Ready.")
@@ -53,7 +56,7 @@ def real_time_speech_to_text():
                 for i in range(3, 0, -1):
                     print(f"{i}...")
                     time.sleep(1)
-                    print("Listening!")
+                print("Listening!")
                 audio_data = recognizer.listen(source, timeout = 10)
                 
                 # Transcribe the audio using Google’s Web Speech API
@@ -72,27 +75,22 @@ def real_time_speech_to_text():
                 print("Sorry, I did not understand that.")
             except sr.RequestError:
                 print("Could not request results from Google Speech Recognition service.")
+            except sr.WaitTimeoutError:
+                print("Timeout Running Again")
             except KeyboardInterrupt:
                 print("\nExiting real-time transcription.")
                 break
     return all_text  # Return the accumulated transcription of directional words only
 
-def main():   
-
-    port_name = "/dev/cu.usbmodem101"
-    arduino = serial.Serial(port=port_name, baudrate=115200, timeout=1)
-    time.sleep(2)  # Wait for the Arduino to initialize
-    
+def main():  
+    time.sleep(10)
+    send_command("1")
     # Run the real-time speech-to-text function and save the result
     transcribed_directional_text = real_time_speech_to_text()
     print("Directional Transcription: ")
    
     for index, inner_list in enumerate(transcribed_directional_text):
          if inner_list == "hover":
-             tts = gTTS("Beginning hovering sequence", lang='en')
-             tts.save("speech_hov.mp3")
-             os.system("start speech_hov.mp3")
-             send_command(inner_list)
              print(f"Command {index+1} : Hover")
          elif inner_list[0] != "" and inner_list[1] != "":
              text = f"Now moving {transcribed_directional_text[index][0]} degrees {transcribed_directional_text[index][0]}"
@@ -101,4 +99,5 @@ def main():
              os.system("start speech_dir.mp3")
              send_command(inner_list)
              print(f"Command {index+1} : {transcribed_directional_text[index][0]} degrees {transcribed_directional_text[index][1]}")
+
 main()

@@ -3,6 +3,8 @@
 #include "Wire.h"
 #include <Servo.h>
 
+int command;  // Create a String to store incoming data
+
 // PID SETUP
 const float P = 0.5;
 const float I = 0.0001;
@@ -25,15 +27,17 @@ int speed = 0;
 // MAGNETOMETER PRE SETUP
 Tlv493d Tlv493dMagnetic3DSensor = Tlv493d();
 float z_mag = 0;
-int ang = 0;
+float left_min = -199.00;
+float left_max = 155.00;
+float ang = 0;
 
 // ACCEL SETUP
 LSM6DSO myIMU;  //I2C, ADDR 0x6Bs
 float x_vel = 0;
 float z_ang = 0;
-float alpha = 0.2;               // Smoothing factor (0 < alpha <= 1)
-float rawgyroX = 0.0;           // Raw acceleration data
-float filteredgyroX = 0.0;  
+float alpha = 0.2;     // Smoothing factor (0 < alpha <= 1)
+float rawgyroX = 0.0;  // Raw acceleration data
+float filteredgyroX = 0.0;
 
 // EDF PRE SETUP
 int edfPin = 5;
@@ -41,8 +45,8 @@ int thrust = 0;
 Servo edf;
 
 void setup() {
-  Serial.begin(115200);   // Initialize serial communication
-  pinMode(13, OUTPUT);  // Set pin 13 as output
+  Serial.begin(115200);  // Initialize serial communication
+  pinMode(13, OUTPUT);   // Set pin 13 as output
   pinMode(edfPin, OUTPUT);
 
   // SETUP FOR STEPPER MOTOR
@@ -58,7 +62,7 @@ void setup() {
   delay(10);
   if( myIMU.begin() )
     Serial.println("Ready.");
-  else { 
+  else {
     Serial.println("Could not connect to IMU.");
     Serial.println("Freezing");
   }
@@ -72,36 +76,35 @@ void setup() {
   Tlv493dMagnetic3DSensor.begin();
   Tlv493dMagnetic3DSensor.setAccessMode(Tlv493dMagnetic3DSensor.MASTERCONTROLLEDMODE);
   Tlv493dMagnetic3DSensor.disableTemp();
-  
-  // move(false, 55, 4000, 1320);
 
+  move(false, 55, 4000, 1250);
 }
 
 void loop() {
 
   // PYTHON CONNECTION
-  if (Serial.available() > 0) {    // Check if data is received
-    char command = Serial.read();  // Read the command
-    Serial.println(command);
-    if (command != 'hover') {
-      // command.toInt 
-      move(false, 55, 4000, 1320);
-    } else {
-      hover(gyro_int());
-    } 
-  }
-
-    // hover(gyro_int());
+  // command = Serial.readString().toInt();  // Read one byte
+  // Serial.println(command);
+  // if (command == 1) {
+  //   Serial.println("MADE IT");
+  //   unsigned long startTime = millis();
+  //   while (millis() - startTime < 30000) {
+  //     hover(gyro_int());
+  //   }
+  // }
+  // hover(gyro_int());
+  // else if (incomingData == ) {
 
 
   // RETRIEVE ACCELEROMETER VALUE
   // Serial.print(", Z = ");
   // Serial.println(myIMU.readFloatAccelZ(), 3);
 
-  // // RETRIEVE MAGNETOMETER VALUE
-  // delay(Tlv493dMagnetic3DSensor.getMeasurementDelay());
-  // Tlv493dMagnetic3DSensor.updateData();
-  // z_mag = Tlv493dMagnetic3DSensor.getZ();
+  // RETRIEVE MAGNETOMETER VALUE
+  delay(Tlv493dMagnetic3DSensor.getMeasurementDelay());
+  Tlv493dMagnetic3DSensor.updateData();
+  z_mag = Tlv493dMagnetic3DSensor.getZ();
+  Serial.println(z_mag);
 
   // int pwm = map(z_mag, -128.5, 127, 1100, 1500);
   // // edf.writeMicroseconds(pwm);
@@ -150,21 +153,15 @@ void move(int rot, int step, int speed, int thrust) {
   delay(Tlv493dMagnetic3DSensor.getMeasurementDelay());
   Tlv493dMagnetic3DSensor.updateData();
 
-  z_mag = Tlv493dMagnetic3DSensor.getZ() + 128.5;
-  ang = map(z_mag, 0, 255.5, 0, 360);
-  Serial.println(ang);
+  z_mag = Tlv493dMagnetic3DSensor.getZ();
+  Serial.println(abs(z_mag));
 
 
-  while (ang > 2) {
+  while (z_mag > left_min) {
 
     delay(Tlv493dMagnetic3DSensor.getMeasurementDelay());
     Tlv493dMagnetic3DSensor.updateData();
-    z_mag = Tlv493dMagnetic3DSensor.getZ() + 128.5;
-    ang = map(z_mag, 0, 255.5, 0, 360);
-
-    Serial.print(ang);
-    Serial.print(" ");
-    Serial.println(z_mag);
+    z_mag = Tlv493dMagnetic3DSensor.getZ();
     edf.writeMicroseconds(thrust);
   }
   edf.writeMicroseconds(1100);
@@ -218,14 +215,14 @@ float gyro_int() {
 
   // Read the sensor if sufficient time has passed
   if (currentMillis - previousMillis >= 10) {  // 10ms interval (for example)
-    float dt = (currentMillis - previousMillis)/1000.0;
+    float dt = (currentMillis - previousMillis) / 1000.0;
     // Serial.println(dt, 15);
     previousMillis = currentMillis;  // Update previousMillis to the current time
 
-    
+
     rawgyroX = (myIMU.readFloatGyroX());
     filteredgyroX = lowPassFilter(rawgyroX, filteredgyroX, alpha);
-    
+
     z_ang += filteredgyroX * dt;
 
     return z_ang;
