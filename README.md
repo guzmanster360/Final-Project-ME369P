@@ -4,6 +4,8 @@
 This project is a Python-based system that integrates **speech recognition**, **text-to-speech (TTS)** capabilities, and **Arduino control**. The application enables users to issue voice commands to control an electric thruster through an Arduino, allowing real-time interaction using natural language inputs. This is a custom electric thruster for our class presentation.
 
 VIDEO DEMO (CLICK ON IMAGE)
+
+
 [![Watch the video](https://img.youtube.com/vi/8Dl2i2wsW3Y/0.jpg)](https://youtu.be/8Dl2i2wsW3Y)
 
 ---
