@@ -46,25 +46,24 @@ def real_time_text_to_speech(command):
     if command[1] == "hover":
         tts = gTTS("Beginning hovering sequence", lang='en')
         tts.save("speech_hov.mp3")
-        os.system("start speech_hov.mp3")
+        os.system("open speech_hov.mp3")
         print("Beginning hovering sequence.")
         
     elif command[0] != "" and command[1] != "":
         text = f"Now rotating {command[0]} degrees {command[1]}"
         tts = gTTS(text, lang='en')
         tts.save("speech_dir.mp3")
-        os.system("start speech_dir.mp3")
+        os.system("open speech_dir.mp3")
         print(f"Now rotating {command[0]} degrees {command[1]}")
         
     elif command[1] == "" or command[0] == "":
         tts = gTTS("Incomplete command.", lang='en')
         tts.save("speech_incomplete.mp3")
-        os.system("start speech_incomplete.mp3")
+        os.system("open speech_incomplete.mp3")
         print("Incomplete command.")
              
 def real_time_speech_to_text():
     recognizer = sr.Recognizer()
-    all_text = [] # Initialize an empty list to store all transcriptions
 
     # Use the default microphone as the audio source
     with sr.Microphone() as source:
@@ -88,9 +87,7 @@ def real_time_speech_to_text():
                 corrected_text  = text.replace("°", " degrees")
                 print("You said: " + corrected_text)
                 
-                filtered_text = filter_text(corrected_text)
-                if filtered_text != ["", ""]:
-                    all_text.append(filtered_text) 
+                filter_text(corrected_text)
                 
                 repeat = input("\nNext Command? (y/n): ").strip().lower()
                 
@@ -99,21 +96,22 @@ def real_time_speech_to_text():
             except sr.UnknownValueError:
                 tts = gTTS("Sorry, I did not understand that.", lang='en')
                 tts.save("speech_failure.mp3")
-                os.system("start speech_failure.mp3")
+                os.system("open speech_failure.mp3")
                 print("Sorry, I did not understand that.\n")
                 time.sleep(1)
                 
             except sr.RequestError:
                 print("Could not request results from Google Speech Recognition service.")
-                
+            
+            except sr.WaitTimeoutError:
+                print("Timeout running again")
+
             except KeyboardInterrupt:
                 print("\nExiting real-time transcription.")
                 break
             
-    return all_text  # Return the accumulated transcription of directional words only
-
 def main():   
     # Run the real-time speech-to-text function and save the result
-    transcribed_directional_text = real_time_speech_to_text()
+    real_time_speech_to_text()
     
 main()

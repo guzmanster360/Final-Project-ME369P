@@ -77,7 +77,6 @@ void setup() {
   Tlv493dMagnetic3DSensor.setAccessMode(Tlv493dMagnetic3DSensor.MASTERCONTROLLEDMODE);
   Tlv493dMagnetic3DSensor.disableTemp();
 
-  move(false, 55, 4000, 1250);
 }
 
 void loop() {
@@ -91,6 +90,24 @@ void loop() {
     while (millis() - startTime < 30000) {
       hover(gyro_int());
     }
+  }
+  else if (command == -90) {
+    move(true, 55, 4000, 1300);
+  }
+  else if (command == 90) {
+    move(false, 55, 4000, 1300);
+  }
+  else if (command == -180) {
+    move(true, 55, 4000, 1300);
+  }
+  else if (command == 180) {
+    move(false, 55, 4000, 1300);
+  }
+  else if (command == -360) {
+    move(true, 55, 4000, 1300);
+  }
+  else if (command == 360) {
+    move(false, 55, 4000, 1300);
   }
   // hover(gyro_int());
   // else if (incomingData == ) {
