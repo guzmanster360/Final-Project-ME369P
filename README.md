@@ -28,17 +28,17 @@ For the hovering sequence a PID controller was implemented to maintain a constan
   ## **Packages Utilized**
 
   The following packages must be installed before use.
-- **SpeechRecognition**
+- **SpeechRecognition**  
   Speech to text conversion using various APIs, we utilize Google Web Speech API.
   Handles failed recognition and connectivity issue errors.
-- **PyAudio**
+- **PyAudio**  
   Utilized by speech_recognition to capture real time audio input.
-- **Serial**
+- **Serial**  
   Allows for serial port connection to microcontrollers (Arduino).
-- **gTTS (Google Text-to-Speech)**
+- **gTTS (Google Text-to-Speech)**  
   Google’s TTS API, converting strings to audio files.
   Multiple languages, accents, voices.
-- **OS**
+- **OS**  
   Interact with operating system, used to play the TTS mp3 files in real time.
 
 ---
