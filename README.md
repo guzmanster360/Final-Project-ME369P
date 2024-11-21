@@ -3,6 +3,8 @@
 ## **Project Description**
 This project is a Python-based system that integrates **speech recognition**, **text-to-speech (TTS)** capabilities, and **Arduino control**. The application enables users to issue voice commands to control an electric thruster through an Arduino, allowing real-time interaction using natural language inputs. This is a custom electric thruster for our class presentation.
 
+[![Watch the video](https://img.youtube.com/vi/8Dl2i2wsW3Y/0.jpg)](https://youtu.be/8Dl2i2wsW3Y)
+
 ---
 ## **Electric Thruster**
 This project features an electric thruster system with 3 degrees of freedom (roll, pitch, and yaw) of control. The supply sufficient power the system is powered by a 14.8V 100C battery and utilizes an Arduino Uno for precise control of a NEMA 17 stepper motor. The thruster is an electric ducted fan (EDF), driven by an electronic speed controller (ESC) which receives the PID output from system. The system is equipped with a magnetometer for rotational position monitoring and and a 6-axis inertial measurement unit (IMU) for angular velocity/position tracking.
