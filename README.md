@@ -42,9 +42,9 @@ For the hovering sequence a PID controller was implemented to maintain a constan
 
 ---
   ## **Authors**
-  . Scott Gafka
-  . Victor Guzman
-  . Yan Zhe Wong
+  - Scott Gafka
+  - Victor Guzman
+  - Yan Zhe Wong
 
 
 
