@@ -1,4 +1,4 @@
-# **ME 369P Final Project: Voice-Controlled Arduino System**
+# **ME 369P Final Project: J.A.R.V.I.S for an Electric Thruster**
 
 ## **Project Description**
 This project is a Python-based system that integrates **speech recognition**, **text-to-speech (TTS)** capabilities, and Arduino control. The application enables users to issue voice commands to control a connected device (e.g., a motor) through an Arduino, allowing real-time interaction using natural language inputs.
