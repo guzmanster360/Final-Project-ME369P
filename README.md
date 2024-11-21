@@ -23,17 +23,17 @@ This project features an electric thruster system designed for 3 degrees of free
 ---
   ## **Packages Utilized**
 - **SpeechRecognition**
-  Speech to text conversion using various APIs, we utilize Google Web Speech API
-  Handles failed recognition and connectivity issue errors
+  Speech to text conversion using various APIs, we utilize Google Web Speech API.
+  Handles failed recognition and connectivity issue errors.
 - **PyAudio**
-  Utilized by speech_recognition to capture real time audio input
+  Utilized by speech_recognition to capture real time audio input.
 - **Serial**
-  Allows for serial port connection to microcontrollers (Arduino)
+  Allows for serial port connection to microcontrollers (Arduino).
 - **gTTS (Google Text-to-Speech)**
-  Google’s TTS API, converting strings to audio files
-  Multiple languages, accents, voices
+  Google’s TTS API, converting strings to audio files.
+  Multiple languages, accents, voices.
 - **OS**
-  Interact with operating system, used to play the TTS mp3 files in real time
+  Interact with operating system, used to play the TTS mp3 files in real time.
 
 
 
