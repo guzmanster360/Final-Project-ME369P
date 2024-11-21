@@ -48,20 +48,20 @@ def real_time_text_to_speech(command):
     if command[1] == "hover":
         tts = gTTS("Beginning hovering sequence", lang='en')
         tts.save("speech_hov.mp3")
-        os.system("start speech_hov.mp3")
+        os.system("open speech_hov.mp3")
         print("Beginning hovering sequence.")
         
     elif command[0] != "" and command[1] != "":
         text = f"Now rotating {command[0]} degrees {command[1]}"
         tts = gTTS(text, lang='en')
         tts.save("speech_dir.mp3")
-        os.system("start speech_dir.mp3")
+        os.system("open speech_dir.mp3")
         print(f"Now rotating {command[0]} degrees {command[1]}")
         
     elif command[1] == "" or command[0] == "":
         tts = gTTS("Incomplete command.", lang='en')
         tts.save("speech_incomplete.mp3")
-        os.system("start speech_incomplete.mp3")
+        os.system("open speech_incomplete.mp3")
         print("Incomplete command.")
              
 def real_time_speech_to_text():
@@ -102,10 +102,13 @@ def real_time_speech_to_text():
             except sr.UnknownValueError:
                 tts = gTTS("Sorry, I did not understand that.", lang='en')
                 tts.save("speech_failure.mp3")
-                os.system("start speech_failure.mp3")
+                os.system("open speech_failure.mp3")
                 print("Sorry, I did not understand that.\n")
                 time.sleep(1)
                 
+            except sr.WaitTimeoutError:
+                print("Timeout running again")
+
             except sr.RequestError:
                 print("Could not request results from Google Speech Recognition service.")
                 

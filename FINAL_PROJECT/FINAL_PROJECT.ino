@@ -83,15 +83,15 @@ void setup() {
 void loop() {
 
   // PYTHON CONNECTION
-  // command = Serial.readString().toInt();  // Read one byte
-  // Serial.println(command);
-  // if (command == 1) {
-  //   Serial.println("MADE IT");
-  //   unsigned long startTime = millis();
-  //   while (millis() - startTime < 30000) {
-  //     hover(gyro_int());
-  //   }
-  // }
+  command = Serial.readString().toInt();  // Read one byte
+  Serial.println(command);
+  if (command == 1) {
+    Serial.println("MADE IT");
+    unsigned long startTime = millis();
+    while (millis() - startTime < 30000) {
+      hover(gyro_int());
+    }
+  }
   // hover(gyro_int());
   // else if (incomingData == ) {
 
@@ -101,10 +101,10 @@ void loop() {
   // Serial.println(myIMU.readFloatAccelZ(), 3);
 
   // RETRIEVE MAGNETOMETER VALUE
-  delay(Tlv493dMagnetic3DSensor.getMeasurementDelay());
-  Tlv493dMagnetic3DSensor.updateData();
-  z_mag = Tlv493dMagnetic3DSensor.getZ();
-  Serial.println(z_mag);
+  // delay(Tlv493dMagnetic3DSensor.getMeasurementDelay());
+  // Tlv493dMagnetic3DSensor.updateData();
+  // z_mag = Tlv493dMagnetic3DSensor.getZ();
+  // Serial.println(z_mag);
 
   // int pwm = map(z_mag, -128.5, 127, 1100, 1500);
   // // edf.writeMicroseconds(pwm);
