@@ -9,9 +9,9 @@ This project is a Python-based system that integrates **speech recognition**, **
 - **Real-Time Speech Recognition**  
   Utilizes the Google Speech Recognition API to process spoken commands.
 - **Text Filtering**  
-  Filters commands for directional words like `clockwise`, `counterclockwise`, and `hover`. Extracts numerical degrees for motor rotation.
+  Filters commands for directional words like `clockwise`, `counterclockwise`, and `hover`. Extracts numerical degrees for electric thruster rotation.
 - **Arduino Integration**  
-  Sends commands to an Arduino via a serial port for motor control.
+  Sends commands to an Arduino via a serial port for electric thruster control.
 - **Text-to-Speech Feedback**  
   Provides audio feedback on recognized commands or errors.
 - **Interactive User Flow**  
