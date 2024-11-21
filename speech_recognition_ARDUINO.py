@@ -86,13 +86,11 @@ def real_time_speech_to_text():
                 text = recognizer.recognize_google(audio_data)
                 corrected_text  = text.replace("°", " degrees")
                 print("You said: " + corrected_text)
-                
                 filter_text(corrected_text)
-                
                 repeat = input("\nNext Command? (y/n): ").strip().lower()
-                
                 if repeat != "y":
                     break
+                    
             except sr.UnknownValueError:
                 tts = gTTS("Sorry, I did not understand that.", lang='en')
                 tts.save("speech_failure.mp3")
