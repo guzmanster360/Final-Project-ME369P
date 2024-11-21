@@ -1,18 +1,3 @@
-# Final-Project-ME369D
-
-
-
-
-
-
-You said:
-write that in Github format
-ChatGPT said:
-ChatGPT
-Here’s the README formatted for GitHub using Markdown syntax:
-
-markdown
-Copy code
 # **ME 369P Final Project: Voice-Controlled Arduino System**
 
 ## **Project Description**
