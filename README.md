@@ -16,15 +16,3 @@ This project is a Python-based system that integrates **speech recognition**, **
   Provides audio feedback on recognized commands or errors.
 - **Interactive User Flow**  
   Includes user-friendly prompts to process multiple commands in sequence.
-
----
-
-## **Project Structure**
-```plaintext
-.
-├── main.py              # Main script for running the system
-├── requirements.txt     # Python dependencies
-├── README.md            # Project documentation
-├── speech_hov.mp3       # Hovering sequence audio file (generated at runtime)
-├── speech_dir.mp3       # Directional command audio file (generated at runtime)
-└── speech_incomplete.mp3# Incomplete command audio file (generated at runtime)
